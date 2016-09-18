@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>机器学习</title>
+<!-- 2016-09-18 Sun 11:26 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="赵光建" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">机器学习</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. 概述</a></li>
+<li><a href="#sec-2">2. 从数据中抽取合适的特征</a>
+<ul>
+<li><a href="#sec-2-1">2.1. 从MovieLens数据集提取特征</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> 概述</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+本文档记录了一个小白学习MLLib的过程
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> 从数据中抽取合适的特征</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> 从MovieLens数据集提取特征</h3>
+<div class="outline-text-3" id="text-2-1">
+<pre class="example">
+u.item     -- Information about the items (movies); this is a tab separated
+              list of
+              movie id | movie title | release date | video release date |
+              IMDb URL | unknown | Action | Adventure | Animation |
+              Children's | Comedy | Crime | Documentary | Drama | Fantasy |
+              Film-Noir | Horror | Musical | Mystery | Romance | Sci-Fi |
+              Thriller | War | Western |
+              The last 19 fields are the genres, a 1 indicates the movie
+              is of that genre, a 0 indicates it is not; movies can be in
+              several genres at once.
+              The movie ids are the ones used in the u.data data set.
+
+val movies = sc.textFile("/Users/zhaogj/work/datasets/movieslens/ml-100k/u.item")
+val movies = sc.textFile("/user/zhaogj/input/ml-100k/u.item")
+println(movies.first)
+
+u.genre    -- A list of the genres.
+
+val genres = sc.textFile("/Users/zhaogj/work/datasets/movieslens/ml-100k/u.genre")
+val genres = sc.textFile("/user/zhaogj/input/ml-100k/u.genre")
+genres.take(5).foreach(println)
+
+val genreMap = genres.filter(!_.isEmpty).map(line =&gt; line.split("\\|")).map(array =&gt; (array(1), array(0))).collectAsMap
+println(genreMap)
+
+val titlesAndGenres = movies.map(_.split("\\|")).map { array =&gt;
+  val genres = array.toSeq.slice(5, array.size)
+  val genresAssigned = genres.zipWithIndex.filter { case (g, idx) =&gt;
+    g == "1"
+  }.map { case (g, idx) =&gt;
+    genreMap(idx.toString)
+  }
+  (array(0).toInt, (array(1), genresAssigned))
+}
+println(titlesAndGenres.first)
+
+import org.apache.spark.mllib.recommendation.ALS
+import org.apache.spark.mllib.recommendation.Rating
+
+u.data     -- The full u data set, 100000 ratings by 943 users on 1682 items.
+              Each user has rated at least 20 movies.  Users and items are
+              numbered consecutively from 1.  The data is randomly
+              ordered. This is a tab separated list of 
+	         user id | item id | rating | timestamp. 
+              The time stamps are unix seconds since 1/1/1970 UTC   
+
+val rawData = sc.textFile("/Users/zhaogj/work/datasets/movieslens/ml-100k/u.data")
+val rawData = sc.textFile("/user/zhaogj/input/ml-100k/u.data")
+println(rawData.first)
+
+val rawRatings = rawData.map(_.split("\t").take(3))
+rawRatings.collect
+
+val ratings = rawRatings.map{ case Array(user, movie, rating) =&gt;
+  Rating(user.toInt, movie.toInt, rating.toDouble)
+}
+ratings.collect
+
+ratings.cache
+val alsModel = ALS.train(ratings, 50, 10, 0.1)
+
+import org.apache.spark.mllib.linalg.Vectors
+val movieFactors = alsModel.productFeatures.map { case (id, factor) =&gt;
+  (id, Vectors.dense(factor))
+}
+val movieVectors = movieFactors.map(_._2)
+val userFactors = alsModel.userFeatures.map { case (id, factor) =&gt;
+  (id, Vectors.dense(factor))
+}
+val userVectors = userFactors.map(_._2)
+
+import org.apache.spark.mllib.linalg.distributed.RowMatrix
+val movieMatrix = new RowMatrix(movieVectors)
+val movieMatrixSummary = movieMatrix.computeColumnSummaryStatistics()
+
+val userMatrix = new RowMatrix(userVectors)
+val userMatrixSummary = userMatrix.computeColumnSummaryStatistics()
+
+println("Movie factors mean: " + movieMatrixSummary.mean)
+println("Movie factors variance: " + movieMatrixSummary.variance)
+println("User factors mean: " + userMatrixSummary.mean)
+println("User factors variance: " + userMatrixSummary.variance)
+
+import org.apache.spark.mllib.clustering.KMeans
+val numClusters = 5
+val numIterations = 10
+val numRuns = 3
+
+val movieClusterModel = KMeans.train(movieVectors, numClusters, numIterations, numRuns)
+
+val movieClusterModel = KMeans.train(movieVectors, numClusters, 100)
+
+val userClusterModel = KMeans.train(userVectors, numClusters, numIterations, numRuns)
+
+val movie1 = movieVectors.first
+val movieCluster = movieClusterModel.predict(movie1)
+println(movieCluster)
+
+val predictions = movieClusterModel.predict(movieVectors)
+println(predictions.take(10).mkString(","))
+
+import breeze.linalg._
+import breeze.numerics.pow
+def computeDistance(v1: DenseVector[Double], v2: DenseVector[Double])
+  = pow(v1 -v2, 2).sum
+
+val titlesWithFactors = titlesAndGenres.join(movieFactors)
+val moviesAssigned = titlesWithFactors.map { case (id, ((title, genres), vector)) =&gt;
+  val pred = movieClusterModel.predict(vector)
+  val clusterCentre = movieClusterModel.clusterCenters(pred)
+  val dist = computeDistance(DenseVector(clusterCentre.toArray), DenseVector(vector.toArray))
+    (id, title, genres.mkString(" "), pred, dist)
+}
+val clusterAssignments = moviesAssigned.groupBy{ case (id, title, genres, cluster, dist) =&gt;
+  cluster
+}.collectAsMap
+
+for ( (k, v) &lt;- clusterAssignments.toSeq.sortBy(_._1)) {
+  println(s"Cluster $k:")
+  val m = v.toSeq.sortBy(_._5)
+  println(m.take(20).map { case (_, title, genres, _, d) =&gt;
+    (title, genres, d)
+  }.mkString("\n"))
+  println("====\n")
+}
+
+val movieCost = movieClusterModel.computeCost(movieVectors)
+val userCost = userClusterModel.computeCost(userVectors)
+println("WCSS for movies: " + movieCost)
+println("WCSS for users: " + userCost)
+
+val trainTestSplitMovies = movieVectors.randomSplit(Array(0.6, 0.4), 123)
+val trainMovies = trainTestSplitMovies(0)
+val testMovies = trainTestSplitMovies(1)
+val costsMovies = Seq(2, 3, 4, 5, 10, 20).map { k =&gt; 
+  (k, KMeans.train(trainMovies, numIterations, k, numRuns).computeCost(testMovies))
+}
+println("Movie clustering cross-validation:")
+costsMovies.foreach { case (k, cost) =&gt;
+  println(f"WCSS for K=$k id $cost%2.2f")
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: 赵光建</p>
+<p class="date">Created: 2016-09-18 Sun 11:26</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
