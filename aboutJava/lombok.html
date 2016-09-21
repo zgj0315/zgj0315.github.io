@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>After90</title>
-<!-- 2016-09-21 Wed 23:28 -->
+<title>lombok的使用</title>
+<!-- 2016-09-21 Wed 23:22 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="赵光建" />
@@ -137,159 +137,126 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">After90</h1>
+<h1 class="title">lombok的使用</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. aboutDSLR</a></li>
-<li><a href="#sec-2">2. aboutES</a></li>
-<li><a href="#sec-3">3. aboutGit</a></li>
-<li><a href="#sec-4">4. aboutHadoop</a></li>
-<li><a href="#sec-5">5. aboutHBase</a></li>
-<li><a href="#sec-6">6. aboutJava</a></li>
-<li><a href="#sec-7">7. aboutMe</a></li>
-<li><a href="#sec-8">8. aboutMLLib</a></li>
-<li><a href="#sec-9">9. aboutShell</a></li>
-<li><a href="#sec-10">10. aboutSpark</a></li>
-<li><a href="#sec-11">11. aboutVi</a></li>
+<li><a href="#sec-1">1. 常用的 lombok 注解</a></li>
+<li><a href="#sec-2">2. maven构建项目</a></li>
+<li><a href="#sec-3">3. Java代码demo</a></li>
+<li><a href="#sec-4">4. eclipse中使用lombok</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> aboutDSLR</h2>
-<div class="outline-text-2" id="text-1">
 <p>
-<a href="./aboutDSLR/buyDSLR.html">买机身还是还镜头</a>
+lombok 提供了简单的注解的形式来帮助我们简化消除一些必须有但显得很臃肿的 java 代码。
 </p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> 常用的 lombok 注解</h2>
+<div class="outline-text-2" id="text-1">
+<pre class="example">
+@Data:注解在类上；提供类所有属性的 getting 和 setting 方法，此外还提供了equals、canEqual、hashCode、toString 方法
+
+@Setter:注解在属性上；为属性提供 setting 方法
+
+@Getter:注解在属性上；为属性提供 getting 方法
+
+@Log4j:注解在类上；为类提供一个 属性名为log 的 log4j 日志对象
+
+@Slf4j:取代Log4j
+
+@NoArgsConstructor:注解在类上；为类提供一个无参的构造方法
+
+@AllArgsConstructor:注解在类上；为类提供一个全参的构造方法
+</pre>
 </div>
 </div>
 
 <div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> aboutES</h2>
+<h2 id="sec-2"><span class="section-number-2">2</span> maven构建项目</h2>
 <div class="outline-text-2" id="text-2">
-<p>
-<a href="./aboutES/thePomFuckMe24h.html">maven构建es java工程</a>
-</p>
+<pre class="example">
+&lt;!-- Lombok --&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+  &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+  &lt;version&gt;1.16.10&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;!-- logger --&gt;
+  &lt;dependency&gt;
+  &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+  &lt;artifactId&gt;slf4j-api&lt;/artifactId&gt;
+  &lt;version&gt;1.7.21&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+  &lt;artifactId&gt;slf4j-log4j12&lt;/artifactId&gt;
+  &lt;version&gt;1.7.21&lt;/version&gt;
+&lt;/dependency&gt;
+</pre>
 </div>
 </div>
 
 <div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> aboutGit</h2>
+<h2 id="sec-3"><span class="section-number-2">3</span> Java代码demo</h2>
 <div class="outline-text-2" id="text-3">
-<p>
-<a href="./aboutGit/howToUseGit.html">如何使用git</a>
-</p>
+<pre class="example">
+package com.qzt360.BASystemSpringboot.stat;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class DataStatus {
+	private long lAWifiAuthlogCount;// 终端上下线条数
+	private long lAWifiNetlogCount;// 审计日志条数
+	private long lAWifiNetIdlogCount;// 虚拟身份日志条数
+	private long lAWifiEqpCount;// aWifi设备个数
+	private long lIdCount;// 身份个数
+}
+</pre>
 </div>
 </div>
 
 <div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> aboutHadoop</h2>
+<h2 id="sec-4"><span class="section-number-2">4</span> eclipse中使用lombok</h2>
 <div class="outline-text-2" id="text-4">
 <p>
-<a href="./aboutHadoop/doSomethingInHdfs.html">hdfs中操作权限问题</a>
+新下载的eclipse会有问题，解决办法：
+</p>
+<ol class="org-ol">
+<li>在Maven Dependencies中找到lombok-1.16.10.jar
+</li>
+<li>右键，Run As Java Application
+</li>
+<li>弹出页面，点Install/Update就搞定了
+</li>
+<li>如果你是MacOS系统，会提示I can't find any IDEs on your computer,
+</li>
+</ol>
+<p>
+你要手工选择路径,Specify location&#x2026;
+YourEclipse.app/Contents/Eclipse/eclipse.ini,
+点Install/Update，你会发现在YourEclipse.app/Contents/Eclipse/目录有个lombok.jar,
+mv lombok.jar ./plugins,
+修改eclipse.ini中的-javaagent:../Eclipse/plugins/lombok.jar，
+重启eclipse就OK了。
 </p>
 
 <p>
-<a href="./aboutHadoop/flumeConf.html">Flume的配置说明</a>
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5"><span class="section-number-2">5</span> aboutHBase</h2>
-<div class="outline-text-2" id="text-5">
-<p>
-<a href="./aboutHBase/aboutRowkey.html">关于Rowkey的设计</a>
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-6" class="outline-2">
-<h2 id="sec-6"><span class="section-number-2">6</span> aboutJava</h2>
-<div class="outline-text-2" id="text-6">
-<p>
-<a href="./aboutJava/lombok.html">lombok的使用</a>
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-7" class="outline-2">
-<h2 id="sec-7"><span class="section-number-2">7</span> aboutMe</h2>
-<div class="outline-text-2" id="text-7">
-<p>
-<a href="./aboutMe/before35.html">Before35</a>
-</p>
-
-<p>
-<a href="./aboutMe/fuckBy502.html">502引起的风波</a>
-</p>
-
-<p>
-<a href="./aboutMe/my815inGuangzhou.html">在广州度过的八月十五</a>
-</p>
-
-<p>
-<a href="./aboutMe/pushUps.html">俯卧撑</a>
-</p>
-
-<p>
-<a href="./aboutMe/romanticLetter.html">浪漫情书</a>
-</p>
-
-<p>
-<a href="./aboutMe/todoList.html">ToDO List</a>
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-8" class="outline-2">
-<h2 id="sec-8"><span class="section-number-2">8</span> aboutMLLib</h2>
-<div class="outline-text-2" id="text-8">
-<p>
-<a href="./aboutMLLib/groupId.html">身份合一的研究</a>
-</p>
-
-<p>
-<a href="./aboutMLLib/machineLearning.html">机器学习</a>
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-9" class="outline-2">
-<h2 id="sec-9"><span class="section-number-2">9</span> aboutShell</h2>
-<div class="outline-text-2" id="text-9">
-<p>
-<a href="./aboutShell/cleanTmpFile.html">删除临时文件的脚本</a>
-</p>
-
-<p>
-<a href="./aboutShell/findAndDoSomething.html">find命令的使用</a>
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-10" class="outline-2">
-<h2 id="sec-10"><span class="section-number-2">10</span> aboutSpark</h2>
-<div class="outline-text-2" id="text-10">
-<p>
-<a href="./aboutSpark/sparkHBaseGetSerializable.html">Spark访问HBase，通过Get方式查找数据</a>
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-11" class="outline-2">
-<h2 id="sec-11"><span class="section-number-2">11</span> aboutVi</h2>
-<div class="outline-text-2" id="text-11">
-<p>
-<a href="./aboutVi/replaceAll.html">替换功能</a>
+Enjoy your coding life.
 </p>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: 赵光建</p>
-<p class="date">Created: 2016-09-21 Wed 23:28</p>
+<p class="date">Created: 2016-09-21 Wed 23:22</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
