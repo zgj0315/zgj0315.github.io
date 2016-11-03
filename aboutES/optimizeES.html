@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>After90</title>
+<title>优化ES</title>
 <!-- 2016-11-03 Thu 16:15 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
@@ -137,181 +137,139 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">After90</h1>
+<h1 class="title">优化ES</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. aboutDSLR</a></li>
-<li><a href="#sec-2">2. aboutES</a></li>
-<li><a href="#sec-3">3. aboutGit</a></li>
-<li><a href="#sec-4">4. aboutHadoop</a></li>
-<li><a href="#sec-5">5. aboutHBase</a></li>
-<li><a href="#sec-6">6. aboutJava</a></li>
-<li><a href="#sec-7">7. aboutMe</a></li>
-<li><a href="#sec-8">8. aboutMLLib</a></li>
-<li><a href="#sec-9">9. aboutShell</a></li>
-<li><a href="#sec-10">10. aboutSpark</a></li>
-<li><a href="#sec-11">11. aboutVi</a></li>
+<li><a href="#sec-1">1. 操作命令</a>
+<ul>
+<li><a href="#sec-1-1">1.1. 集群健康状态</a></li>
+<li><a href="#sec-1-2">1.2. 所有index列表</a></li>
+<li><a href="#sec-1-3">1.3. shard点状态</a></li>
+<li><a href="#sec-1-4">1.4. 查看模版</a></li>
+<li><a href="#sec-1-5">1.5. 各节点详细信息</a></li>
+<li><a href="#sec-1-6">1.6. 集群状态</a></li>
+<li><a href="#sec-1-7">1.7. hot threads状态</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
+
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> aboutDSLR</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> 操作命令</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-<a href="./aboutDSLR/buyDSLR.html">买机身还是还镜头</a>
+提到优化，肯定需要知道一些ES的命令，通过操作命令了解ES中的一些参数
 </p>
+</div>
+
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 集群健康状态</h3>
+<div class="outline-text-3" id="text-1-1">
+<pre class="example">
+# 命令
+# 整个集群的状态
+curl -XGET 'http://192.168.36.28:9200/_cluster/health?pretty'
+# 某几个index的状态
+curl -XGET 'http://192.168.36.28:9200/_cluster/health/eqp,id_database?pretty'
+
+# 注解
+# status
+green 绿灯，所有分片都正确运行，集群非常健康。
+yellow 黄灯，所有主分片都正确运行，但是有副本分片缺失。这种情况意味着 ES 当前还是正常运行的，但是有一定风险。注意，在 Kibana4 的 server 端启动逻辑中，即使是黄灯状态，Kibana 4 也会拒绝启动，死循环等待集群状态变成绿灯后才能继续运行。
+red 红灯，有主分片缺失。这部分数据完全不可用。而考虑到 ES 在写入端是简单的取余算法，轮到这个分片上的数据也会持续写入报错。
+# number_of_nodes
+集群内的总节点数
+# number_of_data_nodes
+集群内的总数据节点数
+# active_primary_shards
+集群内所有索引的主分片总数
+# active_shards
+集群内所有索引的分片总数
+# relocating_shards
+正在迁移中的分片数
+# initializing_shards
+正在初始化的分片数
+# unassigned_shards
+未分配到具体节点上的分片数
+# delayed_unassigned_shards
+延时待分配到具体节点上的分片数
+</pre>
 </div>
 </div>
 
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> aboutES</h2>
-<div class="outline-text-2" id="text-2">
-<p>
-<a href="./aboutES/elasticsearch.html">Elastic Search研究记录</a>
-</p>
-
-<p>
-<a href="./aboutES/maxResultWindow.html">查询数据量大于一万时报错问题</a>
-</p>
-
-<p>
-<a href="./aboutES/optimizeES.html">优化ES</a>
-</p>
-
-<p>
-<a href="./aboutES/thePomFuckMe24h.html">maven构建es java工程</a>
-</p>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> 所有index列表</h3>
+<div class="outline-text-3" id="text-1-2">
+<pre class="example">
+# 命令
+curl -XGET 'http://192.168.36.28:9200/_cat/indices?v'
+</pre>
 </div>
 </div>
 
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> aboutGit</h2>
-<div class="outline-text-2" id="text-3">
-<p>
-<a href="./aboutGit/howToUseGit.html">如何使用git</a>
-</p>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> shard点状态</h3>
+<div class="outline-text-3" id="text-1-3">
+<pre class="example">
+# 命令
+curl -XGET 'http://192.168.36.28:9200/_cat/shards?v'
+
+# 注解
+</pre>
 </div>
 </div>
 
-<div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> aboutHadoop</h2>
-<div class="outline-text-2" id="text-4">
-<p>
-<a href="./aboutHadoop/doSomethingInHdfs.html">hdfs中操作权限问题</a>
-</p>
-
-<p>
-<a href="./aboutHadoop/flumeConf.html">Flume的配置说明</a>
-</p>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> 查看模版</h3>
+<div class="outline-text-3" id="text-1-4">
+<pre class="example">
+# 命令
+curl -XGET 'http://192.168.36.28:9200/_template'
+</pre>
 </div>
 </div>
 
-<div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5"><span class="section-number-2">5</span> aboutHBase</h2>
-<div class="outline-text-2" id="text-5">
-<p>
-<a href="./aboutHBase/aboutRowkey.html">关于Rowkey的设计</a>
-</p>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> 各节点详细信息</h3>
+<div class="outline-text-3" id="text-1-5">
+<pre class="example">
+# 命令
+curl -XGET 'http://192.168.36.28:9200/_cat/thread_pool?v'
+curl -XGET 'http://192.168.36.28:9200/_nodes/thread_pool?pretty'
+curl -XGET 'http://192.168.36.28:9200/_nodes/stats?pretty'
+
+# 注解
+更进一步，如果到 85% 或者 95% 了，估计节点一次 GC 能耗时 10s 以上，甚至可能会发生 OOM 了。
+</pre>
 </div>
 </div>
 
-<div id="outline-container-sec-6" class="outline-2">
-<h2 id="sec-6"><span class="section-number-2">6</span> aboutJava</h2>
-<div class="outline-text-2" id="text-6">
-<p>
-<a href="./aboutJava/byeEclipseHelloIdea.html">正式开始使用IntelliJ IDEA，放弃eclipse</a>
-</p>
-
-<p>
-<a href="./aboutJava/getRandom.html">获取随机数</a>
-</p>
-
-<p>
-<a href="./aboutJava/lombok.html">lombok的使用</a>
-</p>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6"><span class="section-number-3">1.6</span> 集群状态</h3>
+<div class="outline-text-3" id="text-1-6">
+<pre class="example">
+# 命令
+curl -XGET 'http://192.168.36.28:9200/_cluster/stats?pretty'
+</pre>
 </div>
 </div>
 
-<div id="outline-container-sec-7" class="outline-2">
-<h2 id="sec-7"><span class="section-number-2">7</span> aboutMe</h2>
-<div class="outline-text-2" id="text-7">
-<p>
-<a href="./aboutMe/before35.html">Before35</a>
-</p>
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7"><span class="section-number-3">1.7</span> hot threads状态</h3>
+<div class="outline-text-3" id="text-1-7">
+<pre class="example">
+# 命令
+curl -XGET 'http://192.168.36.28:9200/_nodes/_local/hot_threads?interval=60s'
 
-<p>
-<a href="./aboutMe/fuckBy502.html">502引起的风波</a>
-</p>
-
-<p>
-<a href="./aboutMe/keyboard.html">机械键盘</a>
-</p>
-
-<p>
-<a href="./aboutMe/my815inGuangzhou.html">在广州度过的八月十五</a>
-</p>
-
-<p>
-<a href="./aboutMe/pushUps.html">俯卧撑</a>
-</p>
-
-<p>
-<a href="./aboutMe/romanticLetter.html">浪漫情书</a>
-</p>
-
-<p>
-<a href="./aboutMe/todoList.html">ToDO List</a>
-</p>
+#注解
+该接口会返回在 interval 时长内，该节点消耗资源最多的前三个线程的堆栈情况。这对于性能调优初期，采集现状数据，极为有用。
+默认的采样间隔是 500ms，一般来说，这个时间范围是不太够的，建议至少 60s 以上。
+默认的，资源消耗是按照 CPU 来衡量，还可以用 ?type=wait 或者 ?type=block 来查看在等待和堵塞状态的当前线程排名。
+</pre>
 </div>
-</div>
-
-<div id="outline-container-sec-8" class="outline-2">
-<h2 id="sec-8"><span class="section-number-2">8</span> aboutMLLib</h2>
-<div class="outline-text-2" id="text-8">
-<p>
-<a href="./aboutMLLib/groupId.html">身份合一的研究</a>
-</p>
-
-<p>
-<a href="./aboutMLLib/machineLearning.html">机器学习</a>
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-9" class="outline-2">
-<h2 id="sec-9"><span class="section-number-2">9</span> aboutShell</h2>
-<div class="outline-text-2" id="text-9">
-<p>
-<a href="./aboutShell/cleanTmpFile.html">删除临时文件的脚本</a>
-</p>
-
-<p>
-<a href="./aboutShell/findAndDoSomething.html">find命令的使用</a>
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-10" class="outline-2">
-<h2 id="sec-10"><span class="section-number-2">10</span> aboutSpark</h2>
-<div class="outline-text-2" id="text-10">
-<p>
-<a href="./aboutSpark/sparkHBaseGetSerializable.html">Spark访问HBase，通过Get方式查找数据</a>
-</p>
-
-<p>
-<a href="./aboutSpark/sparkScalaMaven.html">Spark开发环境搭建说明</a>
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-11" class="outline-2">
-<h2 id="sec-11"><span class="section-number-2">11</span> aboutVi</h2>
-<div class="outline-text-2" id="text-11">
-<p>
-<a href="./aboutVi/replaceAll.html">替换功能</a>
-</p>
 </div>
 </div>
 </div>
