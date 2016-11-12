@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>优化ES</title>
-<!-- 2016-11-03 Thu 16:15 -->
+<!-- 2016-11-12 Sat 20:14 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="赵光建" />
@@ -243,6 +243,8 @@ curl -XGET 'http://192.168.36.28:9200/_nodes/stats?pretty'
 
 # 注解
 更进一步，如果到 85% 或者 95% 了，估计节点一次 GC 能耗时 10s 以上，甚至可能会发生 OOM 了。
+
+curl '192.168.36.28:9200/_cat/nodes?v'
 </pre>
 </div>
 </div>
@@ -275,7 +277,7 @@ curl -XGET 'http://192.168.36.28:9200/_nodes/_local/hot_threads?interval=60s'
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: 赵光建</p>
-<p class="date">Created: 2016-11-03 Thu 16:15</p>
+<p class="date">Created: 2016-11-12 Sat 20:14</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
