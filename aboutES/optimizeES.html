@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>优化ES</title>
-<!-- 2016-11-12 Sat 20:14 -->
+<!-- 2016-11-16 Wed 01:48 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="赵光建" />
@@ -153,6 +153,7 @@ for the JavaScript code in this tag.
 <li><a href="#sec-1-7">1.7. hot threads状态</a></li>
 </ul>
 </li>
+<li><a href="#sec-2">2. 重启node</a></li>
 </ul>
 </div>
 </div>
@@ -274,10 +275,53 @@ curl -XGET 'http://192.168.36.28:9200/_nodes/_local/hot_threads?interval=60s'
 </div>
 </div>
 </div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> 重启node</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+如果需要重启某个node，需要如下操作
+</p>
+
+<pre class="example">
+## 查看集群的健康状态
+curl -XGET 'http://192.168.36.28:9200/_cluster/health?pretty=true'
+
+curl -XPUT '192.168.36.28:9200/_cluster/settings?pretty' -d'
+{
+  "transient": {
+    "cluster.routing.allocation.enable": "none"
+  }
+}'
+
+curl -XPOST '192.168.36.28:9200/_flush/synced'
+
+## 重启node
+
+curl -XPUT '192.168.36.28:9200/_cluster/settings?pretty' -d'
+{
+  "transient": {
+    "cluster.routing.allocation.enable": "all"
+  }
+}'
+
+
+## 等待集群回复正常
+curl -XGET '192.168.36.28:9200/_cat/health?pretty'
+
+curl -XGET '192.168.36.28:9200/_cluster/health?pretty'
+
+curl -XGET '192.168.36.28:9200/_cat/recovery?pretty'
+
+
+##查看集群设置
+curl -XGET '192.168.36.28:9200/_cluster/settings'
+</pre>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: 赵光建</p>
-<p class="date">Created: 2016-11-12 Sat 20:14</p>
+<p class="date">Created: 2016-11-16 Wed 01:48</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
