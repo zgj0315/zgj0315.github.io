@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>优化ES</title>
-<!-- 2016-11-16 Wed 01:48 -->
+<!-- 2016-11-20 Sun 00:02 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="赵光建" />
@@ -154,6 +154,7 @@ for the JavaScript code in this tag.
 </ul>
 </li>
 <li><a href="#sec-2">2. 重启node</a></li>
+<li><a href="#sec-3">3. master的设置</a></li>
 </ul>
 </div>
 </div>
@@ -318,10 +319,23 @@ curl -XGET '192.168.36.28:9200/_cluster/settings'
 </pre>
 </div>
 </div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> master的设置</h2>
+<div class="outline-text-2" id="text-3">
+<pre class="example">
+curl -XPUT '192.168.36.28:9200/_cluster/settings?pretty' -d'
+{
+  "transient": {
+    "discovery.zen.minimum_master_nodes": 1
+  }
+}'
+</pre>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: 赵光建</p>
-<p class="date">Created: 2016-11-16 Wed 01:48</p>
+<p class="date">Created: 2016-11-20 Sun 00:02</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
