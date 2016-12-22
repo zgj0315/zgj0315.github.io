@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>如何使用git</title>
-<!-- 2016-11-22 Tue 12:43 -->
+<!-- 2016-12-21 Wed 17:32 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="赵光建" />
@@ -150,6 +150,7 @@ for the JavaScript code in this tag.
 <li><a href="#sec-3-2">3.2. 日常工作中的使用</a></li>
 </ul>
 </li>
+<li><a href="#sec-4">4. 服务器迁移</a></li>
 </ul>
 </div>
 </div>
@@ -279,10 +280,28 @@ git push origin master
 </div>
 </div>
 </div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> 服务器迁移</h2>
+<div class="outline-text-2" id="text-4">
+<pre class="example">
+1，从老的git服务端clone一份裸版本库
+# git clone --bare git@192.168.10.202:develop/test.git 
+ 
+2，建立新的git服务端，在这里就不详细说了，不是本文重点，git@192.168.10.201:develop/test1.git
+3，以本地为镜像，将代码提交到新的git服务端
+
+# cd test.git   //加上--bare，文件夹会有.git后缀  
+  
+# git push --mirror git@192.168.10.201:develop/test1.git 
+ 
+4，删除本地代码，从新的git服务端，clone代码，并查看提交记录
+</pre>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: 赵光建</p>
-<p class="date">Created: 2016-11-22 Tue 12:43</p>
+<p class="date">Created: 2016-12-21 Wed 17:32</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
