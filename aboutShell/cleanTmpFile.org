@@ -1,0 +1,11 @@
+#+TITLE: 删除临时文件的脚本
+一直用emcas+org-mode的方式写文档，但是会产生org~和html~后缀的缓存文件，看着心里不爽。
+
+想在emacs里找到设置不产生这些文件，但是没搞定，手工删除又很麻烦
+
+所以研究一下脚本完成这个工作
+#+BEGIN_SRC
+#!/bin/bash
+find $1 -name "*.org~" -ok rm {} \;
+find $1 -name "*.html~" -ok rm {} \;
+#+END_SRC

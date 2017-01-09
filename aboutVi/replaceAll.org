@@ -1,0 +1,8 @@
+#+TITLE: 替换功能
+
+用Vi操作文件是常有的，替换全文中某个字符串功能如下：
+
+#+BEGIN_SRC
+#用字符串str2替换正文中所有的str1
+:g/str1/s//str2/g
+#+END_SRC
