@@ -21,6 +21,7 @@
 - [[./aboutJava/ideaWorkWithMaven.html][IDEA和Maven协同工作]]
 - [[./aboutJava/lombok.html][lombok的使用]]
 * aboutMe
+- [[./aboutMe/aboutCar.html][我和我的车]]
 - [[./aboutMe/before35.html][Before35]]
 - [[./aboutMe/fuckBy502.html][502引起的风波]]
 - [[./aboutMe/keyboard.html][机械键盘]]
