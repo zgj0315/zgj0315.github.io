@@ -8,6 +8,8 @@ sleep 30s
 #find . -name '*.html' -exec mv {} ../zgj0315.github.io/{} \;
 find . -name '*.org~' -exec rm -f {} \;
 find . -name '*.html~' -exec rm -f {} \;
+find . -name '*.sh~' -exec rm -f {} \;
+find . -name '\#*.*\#' -exec rm -f {} \;
 find . -name '.DS_Store' -exec rm -f {} \;
 # commit and push to github
 git status
