@@ -1,0 +1,15 @@
+#+TITLE: 获取随机数
+
+生成文件名中需要五位长的随机数，开始时候偷懒，固定写死了五个零，结果出现了文件重名的情况，哎呀，各种日志各种查呀，各种费劲，终于定位到是文件名重名造成的了。
+随机数生成有很多方法，以下为我采用的方式：
+
+#+BEGIN_SRC
+// 返回指定长度的随机数
+public static String getRandom(int nLength) {
+  StringBuffer sb = new StringBuffer();
+  for (int i = 0; i < nLength; i++) {
+    sb.append((int) (Math.random() * 10));
+  }
+  return sb.toString();
+}
+#+END_SRC

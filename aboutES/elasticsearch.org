@@ -1,0 +1,402 @@
+#+TITLE: Elastic Search研究记录
+
+* ElasticSearch安装
+- add user
+#+BEGIN_SRC
+useradd -m -s /bin/bash qzt_es
+#+END_SRC
+- jdk
+#+BEGIN_SRC
+jdk-8u73-linux-x64.tar.gz
+export JAVA_HOME=/home/qzt_es/jdk1.8.0_73
+export CLASSPATH=$JAVA_HOME/lib:$JAVA_HOME/jre/lib:.
+export PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH
+#+END_SRC
+- download and unzip elasticsearch-2.2.0.tar.gz
+- edit ./config/elasticsearch.yml
+#+BEGIN_SRC
+cluster.name: qzt360-es
+node.name: node-01
+network.host: 192.168.36.28
+discovery.zen.ping.unicast.hosts: ["192.168.36.28", "192.168.36.31"]
+node.master: true
+node.data: false/true
+#+END_SRC
+- 同一主机部署多个服务，将node.name改成全局不重复，其它参数不变，脑裂参数需要适当调整
+** 集群状态查看
+#+BEGIN_SRC
+#检查集群健康
+curl '192.168.36.28:9200/_cat/health?v'
+#集群状态
+curl '192.168.36.28:9200/_cluster/stats?pretty'
+#集群索引健康度
+curl '192.168.36.28:9200/_cluster/health/logstash-2016.02.26/?pretty'
+#索引统计
+curl '192.168.36.28:9200/position/_stats?pretty'
+#集群的节点列表
+curl '192.168.36.28:9200/_cat/nodes?v'
+#列出所有的索引
+curl '192.168.36.28:9200/_cat/indices?v'
+#搜索
+curl '192.168.36.28:9200/logstash-2016.02.26/_search?q=*&pretty'
+curl -XPOST '192.168.36.28:9200/logstash-2016.02.26/_search' -d '
+{
+  "query": { "match_all":{}},
+  "from": 10,
+  "size": 3,
+  "_source": ["message"]
+}'
+
+
+#+END_SRC
+* Kibana安装
+- download kibana-4.4.1-linux-x64.tar.gz 
+- config
+#+BEGIN_SRC
+elasticsearch.url: "http://192.168.36.28:9200"
+#+END_SRC
+* 简写规定
+#+BEGIN_SRC
+curl -XGET 'localhost:9200/_count?pretty' -d '
+{
+    "query": {
+        "match_all": {}
+    }
+}'
+简写为：
+
+GET /_count
+{
+    "query": {
+        "match_all": {}
+    }
+}
+#+END_SRC
+* 索引
+** 存储数据
+#+BEGIN_SRC
+curl -XPUT 'localhost:9200/megacorp/employee/1' -d '
+{
+    "first_name" : "John",
+    "last_name" :  "Smith",
+    "age" :        25,
+    "about" :      "I love to go rock climbing",
+    "interests": [ "sports", "music" ]
+}'
+
+curl -XPUT 'localhost:9200/megacorp/employee/2' -d '
+{
+    "first_name" :  "Jane",
+    "last_name" :   "Smith",
+    "age" :         32,
+    "about" :       "I like to collect rock albums",
+    "interests":  [ "music" ]
+}'
+
+curl -XPUT 'localhost:9200/megacorp/employee/3' -d '
+{
+    "first_name" :  "Douglas",
+    "last_name" :   "Fir",
+    "age" :         35,
+    "about":        "I like to build cabinets",
+    "interests":  [ "forestry" ]
+}'
+#+END_SRC
+
+** 搜索
+*** 简单搜索
+#+BEGIN_SRC
+curl -XGET 'localhost:9200/megacorp/employee/_search'
+curl -XGET 'localhost:9200/megacorp/employee/_search?q=last_name:Smith'
+#+END_SRC
+*** 使用DSL语句查询
+#+BEGIN_SRC
+curl -XGET 'localhost:9200/megacorp/employee/_search' -d '
+{
+    "query": {
+        "match": {
+          "last_name" : "Smith"
+        }
+    }
+}'
+#+END_SRC
+* 集群检测插件
+bigdesk
+发现版本不匹配，bigdesk版本很老，有段时间没更新了
+* marvel插件安装
+没有安装成功，暂且不搞它
+* Logstash使用
+- download logstash-2.2.2.tar.gz
+** 测试代码
+#+BEGIN_SRC
+bin/logstash -e 'input { stdin { } } output { stdout {} }'
+# The # character at the beginning of a line indicates a comment. Use
+# comments to describe your configuration.
+input {
+#  stdin{
+#  }
+  file{
+    path => "/home/qzt_es/input/log.txt"
+    start_position => beginning
+  }
+}
+# The filter part of this file is commented out to indicate that it is
+# optional.
+# filter {
+#
+# }
+output {
+#  stdout{
+#    codec => rubydebug
+#  }
+  elasticsearch{
+    hosts => "http://192.168.36.28:9200"
+  }
+}
+
+#+END_SRC
+** 配置文件示例
+#+BEGIN_SRC
+# The # character at the beginning of a line indicates a comment. Use
+# comments to describe your configuration.
+input {
+#  stdin{
+#  }
+  file{
+    path => "/home/qzt_es/input/mac_tel.txt"
+    type => "mac_tel"
+    start_position => beginning
+  }
+  file{
+    path => "/home/qzt_es/input/mac_idcard.txt"
+    type => "mac_idcard"
+    start_position => beginning
+  }
+}
+# The filter part of this file is commented out to indicate that it is
+# optional.
+filter {
+  if [type] == "mac_tel" {
+    grok {
+      match => { "message" => "%{MAC:mac}\t%{WORD:tel}" }
+      #overwrite => ["message"]
+    #  remove_field => ["message"]
+    }
+  } else if [type] == "mac_idcard" {
+    grok {
+      match => { "message" => "%{MAC:mac}\t%{WORD:idcard}" }
+      #overwrite => ["message"]
+    #  remove_field => ["message"]
+    }
+  }
+}
+output {
+#  stdout{
+#    codec => rubydebug
+#  }
+  elasticsearch{
+    hosts => "http://192.168.36.28:9200"
+    index => "maclog"
+    document_id => "%{message}" 
+#    hosts => ["http://192.168.36.28:9200", "http://192.168.36.31:9200", "http://192.168.
+36.32:9200", "http://192.168.36.33:9200", "http://192.168.36.34:9200"]
+  }
+}
+
+#+END_SRC
+** DONE 手工定义数据类型
+#+BEGIN_SRC
+curl -XPUT '192.168.36.28:9200/wlanlog/test/demo' -d '
+{
+    "put_time" : {
+      "index": "analyzed",
+      "type": "date"
+    }
+}'
+curl -XDELETE '192.168.36.28:9200/wlanlog'
+
+curl -XPUT '192.168.36.28:9200/wlanlog/_mapping' -d '
+{
+  "mappings" : {
+    "syslog" : {
+      "properties" : {
+        "file_path" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}'
+#Delete Index
+curl -XDELETE '192.168.36.28:9200/testindex'
+
+#Create Index
+curl -XPUT '192.168.36.28:9200/testindex/'
+
+#Put Mapping
+curl -XPUT '192.168.36.28:9200/testindex/_mapping/testtype' -d '
+{
+  "properties" : {
+    "put_time" : {
+      "type" : "date"
+    },
+    "log_level" : {
+      "type" : "string"
+    },
+    "class_path" : {
+      "type" : "string"
+    },
+    "file_path" : {
+      "type" : "string",
+      "index" : "not_analyzed"
+    }
+  }
+}'
+
+curl -XPUT '192.168.36.28:9200/testindex/_mapping/testtype' -d '
+{
+        "properties" : {
+          "@timestamp" : {
+            "type" : "date",
+            "format" : "strict_date_optional_time||epoch_millis"
+          },
+          "@version" : {
+            "type" : "string"
+          },
+          "class_path" : {
+            "type" : "string"
+          },
+          "file_path" : {
+            "type" : "string",
+            "index" : "not_analyzed"
+          },
+          "host" : {
+            "type" : "string"
+          },
+          "log_level" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "path" : {
+            "type" : "string"
+          },
+          "put_time" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "string"
+          }
+        }
+}'
+#View
+curl -XGET '192.168.36.28:9200/testindex/_mapping?pretty'
+curl -XGET '192.168.36.28:9200/testindex/_search?pretty'
+#+END_SRC
+* ES公司内部培训
+** ElasticSearch简介
+Elasticsearch是一个实时分布式搜索和分析引擎。它基于Lucene的开源搜索引擎。
+可用于全文搜索、结构化搜索、分析以及将这三者混合使用
+
+** 和关系数据库的对应关系
+Relational DB -> Databases -> Tables -> Rows -> Columns
+
+Elasticsearch -> Indices   -> Types  -> Documents -> Fields
+** ES安装部署
+- add user
+#+BEGIN_SRC
+useradd -m -s /bin/bash qzt_es
+#+END_SRC
+- jdk
+#+BEGIN_SRC
+jdk-8u73-linux-x64.tar.gz
+export JAVA_HOME=/home/qzt_es/jdk1.8.0_73
+export CLASSPATH=$JAVA_HOME/lib:$JAVA_HOME/jre/lib:.
+export PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH
+#+END_SRC
+- download and unzip elasticsearch-2.2.0.tar.gz
+- edit ./config/elasticsearch.yml
+#+BEGIN_SRC
+cluster.name: qzt360-es
+node.name: node-01
+network.host: 192.168.36.28
+discovery.zen.ping.unicast.hosts: ["192.168.36.28", "192.168.36.31"]
+discovery.zen.minimum_master_nodes: 3
+node.master: true
+node.data: false/true
+#+END_SRC
+- 同一主机部署多个服务，将node.name改成全局不重复，其它参数不变，脑裂参数需要适当调整
+** 简单数据操作
+*** 存储数据
+#+BEGIN_SRC
+curl -XPUT '192.168.36.28:9200/megacorp/employee/1' -d '
+{
+    "first_name" : "John",
+    "last_name" :  "Smith",
+    "age" :        25,
+    "about" :      "I love to go rock climbing",
+    "interests": [ "sports", "music" ]
+}'
+
+curl -XPUT '192.168.36.31:9200/megacorp/employee/2' -d '
+{
+    "first_name" :  "Jane",
+    "last_name" :   "Smith",
+    "age" :         32,
+    "about" :       "I like to collect rock albums",
+    "interests":  [ "music" ]
+}'
+
+curl -XPUT '192.168.36.32:9200/megacorp/employee/3' -d '
+{
+    "first_name" :  "Douglas",
+    "last_name" :   "Fir",
+    "age" :         35,
+    "about":        "I like to build cabinets",
+    "interests":  [ "forestry" ]
+}'
+#+END_SRC
+
+*** 简单搜索
+#+BEGIN_SRC
+curl -XGET '192.168.36.28:9200/megacorp/employee/_search'
+curl -XGET '192.168.36.28:9200/megacorp/employee/_search?q=last_name:Smith'
+#+END_SRC
+** 集群状态查看
+#+BEGIN_SRC
+#检查集群健康
+curl '192.168.36.28:9200/_cat/health?v'
+#集群状态
+curl '192.168.36.28:9200/_cluster/stats?pretty'
+#集群索引健康度
+curl '192.168.36.28:9200/_cluster/health/megacorp/?pretty'
+#索引统计
+curl '192.168.36.28:9200/megacorp/_stats?pretty'
+#集群的节点列表
+curl '192.168.36.28:9200/_cat/nodes?v'
+#列出所有的索引
+curl '192.168.36.28:9200/_cat/indices?v'
+#搜索
+curl '192.168.36.28:9200/megacorp/_search?q=*&pretty'
+curl -XPOST '192.168.36.28:9200/megacorp/_search' -d '
+{
+  "query": { "match_all":{}},
+  "from": 10,
+  "size": 3,
+  "_source": ["message"]
+}'
+#+END_SRC
+* 启动es的脚本
+#+BEGIN_SRC
+#!/bin/bash
+for i in `jps | grep Elasticsearch | awk '{print$1}'`
+do
+  echo "kill "$i
+  kill $i
+done
+sleep 7
+export ES_HEAP_SIZE=2g
+/home/qzt_es/elasticsearch-2.3.3/bin/elasticsearch -d
+echo "ES restart done!"
+#+END_SRC

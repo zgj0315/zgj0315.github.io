@@ -1,0 +1,128 @@
+#+TITLE: 如何使用git
+#+AUTHOR: 赵光建
+#+EMAIL: zgj0315@gmail.com
+
+* 向服务器提交一个文件
+
+#+BEGIN_SRC
+git add HowToUesGit.org
+git commit -m "add howtousegit.org file"
+git remote add origin https://github.com/zgj0315/after90.git
+git push -u origin master
+#+END_SRC
+
+* 远程clone代码到本地
+
+#+BEGIN_SRC
+git clone ssh://username@ip:port/path/xxx.git
+#+END_SRC
+
+* 分支的使用
+
+** 什么时候需要使用分支
+#+BEGIN_SRC
+假设一种情况：
+1. 开发一个平台，经过三次提交C0，C1，C2
+命令:git push origin master
+            [master]
+               |
+[C0] - [C1] - [C2]
+
+2. 发布一个版本，并且部署到服务器上
+3. 有一个新的需求，所以新建一个分支zhaogj
+命令:
+git checkout master
+git branch zhaogj
+git checkout zhaogj
+4. 在新建分枝上愉快的开发，并且经过两次提交C3,C4
+命令：
+git push origin zhaogj
+
+             [master]
+               |
+[C0] - [C1] - [C2]
+               |
+              [C3] - [C4]
+                      |
+                    [zhaogj]
+
+5. 这时，二哈客户反应已经部署的服务器上的那个版本有个bug需要修改，
+我们可以从容的切换到master上新建一个分支(erha)解决问题
+命令：
+git checkout master
+git branch erha
+git push origin erha
+
+                  [erha]
+                    |  
+          [master][C5]
+               | /
+[C0] - [C1] - [C2]
+               |
+              [C3] - [C4]
+                      |
+                   [zhaogj]
+
+6. 二哈的问题解决完后,合并erha到master,删除erha分支
+命令：
+git check master
+git merge erha
+git branch -d erha
+
+                    [master]
+                      |
+[C0] - [C1] - [C2] - [C5]
+               |
+              [C3] - [C4]
+                      |
+                     [zhaogj]
+
+6. 二哈的问题搞定，回到zhaogj的分支继续愉快的开发，待开发测试完成，将zhaogj合并到master，我们就得到一个完整发布版本，删除zhaogj分支
+命令：
+git checkout master
+git merge zhaogj
+git branch -d zhaogj
+git push origin master
+                           [master]
+                             |
+[C0] - [C1] - [C2] - [C5] - [C6]
+               |          /
+              [C3] - [C4]
+#+END_SRC
+
+** 日常工作中的使用
+#+BEGIN_SRC
+平时开发工作中，我们约定master分支和外网服务器部署的代码要保持一致，禁止直接在master直接提交。
+当需要修订bug或新需求开发时，必须新建自己的分支，当分支开发测试完成，合并到master上去。
+需要的命令如下：
+# 切换到分支zhaogj
+git checkout zhaogj
+
+# 创建分支，先切换到你要从哪个分支为基础创建分支，然后再创建
+git checkout master
+git branch zhaogj
+git checkout zhaogj
+
+# 合并分支，把zhaogj合并到master，删除分支zhaogj,提交一次到master
+git checkout master
+git merge zhaogj
+git branch -d zhaogj
+git push origin master
+当然，你在切换分支前，最好当前工作区没有未提交的。
+合并工作也可能很波折，比如有冲突的文件，需要手工处理
+
+#+END_SRC
+* 服务器迁移
+#+BEGIN_SRC
+1，从老的git服务端clone一份裸版本库
+# git clone --bare git@192.168.10.202:develop/test.git 
+ 
+2，建立新的git服务端，在这里就不详细说了，不是本文重点，git@192.168.10.201:develop/test1.git
+3，以本地为镜像，将代码提交到新的git服务端
+
+# cd test.git   //加上--bare，文件夹会有.git后缀  
+  
+# git push --mirror git@192.168.10.201:develop/test1.git 
+ 
+4，删除本地代码，从新的git服务端，clone代码，并查看提交记录
+#+END_SRC
