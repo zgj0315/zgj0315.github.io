@@ -40,6 +40,6 @@
 - [ ] 应用到生产环境
 * DONE 优化after90的样式[1/1]
 - [X] ox-twbs研究
-* TODO nginx研究[0/2]
-- [ ] 搭建部署
+* TODO nginx研究[1/2]
+- [X] 搭建部署
 - [ ] 替换tomcat

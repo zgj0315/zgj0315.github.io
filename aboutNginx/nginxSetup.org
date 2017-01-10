@@ -24,7 +24,11 @@ server {
     root /home/qzt_nginx/html
   }
 }
-
+#+END_SRC
+** 添加用户
+#+BEGIN_SRC
+groupadd nginx
+useradd -g nginx -s /bin/bash -m qzt_nginx
 #+END_SRC
 * 启动
 root用户执行/usr/local/nginx/sbin/nginx
