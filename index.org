@@ -35,6 +35,8 @@
 * aboutMLLib
 - [[./aboutMLLib/groupId.html][身份合一的研究]]
 - [[./aboutMLLib/machineLearning.html][机器学习]]
+* aboutNginx
+- [[./aboutNginx/nginxSetup.html][nginx的安装部署]]
 * aboutShell
 - [[./aboutShell/cleanTmpFile.html][删除临时文件的脚本]]
 - [[./aboutShell/findAndDoSomething.html][find命令的使用]]

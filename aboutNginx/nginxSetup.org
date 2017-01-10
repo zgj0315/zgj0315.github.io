@@ -1,0 +1,30 @@
+#+TITLE: nginx的安装部署
+
+* 概述
+对比了apache和nginx，如果项目是纯html，推荐使用nginx
+
+* 安装
+** 准备工作
+1. 操作系统red hat 6.4
+2. 下载nginx的源码包，选择当前稳定版，(nginx-1.10.2.tar.gz) http://nginx.org/en/download.html 
+3. 用root用户，解压源码包
+** 编译安装
+#+BEGIN_SRC
+./configure --user=qzt_nginx --group=nginx --with-http_ssl_module
+make
+make install
+#+END_SRC
+** 配置nginx
+#+BEGIN_SRC
+#nginx.conf
+#以下只列出了有变动的行
+server {
+  listen 36886
+  location / {
+    root /home/qzt_nginx/html
+  }
+}
+
+#+END_SRC
+* 启动
+root用户执行/usr/local/nginx/sbin/nginx
