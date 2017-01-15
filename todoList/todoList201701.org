@@ -35,8 +35,8 @@
 - [ ] 推荐系统
 - [X] Data types
 - [X] Basic statistics
-* TODO Jenkins研究[0/2]
-- [ ] 本地测试环境搭建，熟悉基本操作
+* TODO Jenkins研究[1/2]
+- [X] 本地测试环境搭建，熟悉基本操作
 - [ ] 应用到生产环境
 * DONE 优化after90的样式[1/1]
 - [X] ox-twbs研究
