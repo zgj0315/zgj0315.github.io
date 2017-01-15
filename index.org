@@ -37,6 +37,8 @@
 - [[./aboutMLLib/machineLearning.html][机器学习]]
 * aboutNginx
 - [[./aboutNginx/nginxSetup.html][nginx的安装部署]]
+* aboutRedis
+- [[./aboutRedis/redisSetup.html][Redis服务搭建说明]]
 * aboutShell
 - [[./aboutShell/cleanTmpFile.html][删除临时文件的脚本]]
 - [[./aboutShell/findAndDoSomething.html][find命令的使用]]
