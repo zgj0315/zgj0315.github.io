@@ -26,6 +26,7 @@
 - [[./aboutMe/fuckBy502.html][502引起的风波]]
 - [[./aboutMe/keyboard.html][机械键盘]]
 - [[./aboutMe/liweiAndMe.html][李伟和我]]
+- [[./aboutMe/macbookpro.html][MacBook Pro]]
 - [[./aboutMe/my815inGuangzhou.html][在广州度过的八月十五]]
 - [[./aboutMe/oxtwbsexporttohtm.html][漂亮一点的HTML样式]]
 - [[./aboutMe/persistentAndDelusion.html][执着与妄想]]
