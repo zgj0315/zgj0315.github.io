@@ -23,6 +23,7 @@
 * aboutMe
 - [[./aboutMe/aboutCar.html][我和我的车]]
 - [[./aboutMe/before35.html][Before35]]
+- [[./aboutMe/dreams.html][理想那么多]]
 - [[./aboutMe/fuckBy502.html][502引起的风波]]
 - [[./aboutMe/keyboard.html][机械键盘]]
 - [[./aboutMe/liweiAndMe.html][李伟和我]]
