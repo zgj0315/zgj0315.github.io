@@ -33,6 +33,7 @@
 - [[./aboutMe/persistentAndDelusion.html][执着与妄想]]
 - [[./aboutMe/pushUps.html][俯卧撑]]
 - [[./aboutMe/romanticLetter.html][浪漫情书]]
+- [[./aboutMe/summary2016.html][2016总结]]
 - [[./aboutMe/todoList.html][ToDO List]]
 * aboutMLLib
 - [[./aboutMLLib/groupId.html][身份合一的研究]]
