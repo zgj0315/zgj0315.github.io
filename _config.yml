@@ -16,9 +16,7 @@
 title: After90
 email: zgj0315@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
-  记录工作和生活的点点滴滴
-  当然，我其实在忽悠
-  不忘初心
+  不忘初心，方能始终。 H...
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: zgj0315
