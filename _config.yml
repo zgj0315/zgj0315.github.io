@@ -16,13 +16,11 @@
 title: After90
 email: zgj0315@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  记录工作和生活的点点滴滴
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: jekyllrb
-github_username:  jekyll
+twitter_username: zgj0315
+github_username:  zgj0315
 
 # Build settings
 markdown: kramdown
