@@ -2,7 +2,7 @@
 layout: post
 title:  "新站点的由来"
 date:   2017-01-24 16:46:06 +0800
-categories: jekyll update
+categories: website
 ---
 # 版本历史
 ## 第一版
