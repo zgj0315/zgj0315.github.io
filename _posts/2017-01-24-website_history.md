@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "新站点的由来"
+title:  "站点的历史"
 date:   2017-01-24 16:46:06 +0800
 categories: website
 ---
