@@ -34,4 +34,4 @@ exclude:
   - Gemfile.lock
 # pagination
 paginate: 7
-paginate_path: "blog/page:num"
+paginate_path: "page:num"
