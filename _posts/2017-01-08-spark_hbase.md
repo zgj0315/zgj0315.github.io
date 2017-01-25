@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "hbase相关操作"
+title:  "spark访问hbase"
 date:   2016-02-11 12:12:12 +0800
 categories: hbase
 ---
