@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "spark访问hbase"
-date:   2016-02-11 12:12:12 +0800
-categories: hbase
+date:   2016-01-08 21:15:11 +0800
+categories: spark
 ---
 
 Spark访问HBase
