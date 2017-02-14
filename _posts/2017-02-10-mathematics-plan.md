@@ -50,3 +50,5 @@ a<sub>21</sub> a<sub>22</sub> ... a<sub>2n</sub>
 a<sub>n1</sub> a<sub>n2</sub> ... a<sub>nn</sub>
 >
 称为n阶行列式，其中横排称为行，纵排称为列。
+>
+>n阶行列式所表示的代数和中的一般项：(-1)<sup>N(j<sub>1</sub>j<sub>2</sub>...j<sub>n</sub>)</sup>a<sub>1j<sub>1</sub></sub>a<sub>2j<sub>2</sub></sub>...a<sub>nj<sub>n</sub></sub>
