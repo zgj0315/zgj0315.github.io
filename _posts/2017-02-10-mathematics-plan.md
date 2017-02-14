@@ -42,11 +42,11 @@ categories: math
 >用n<sup>2</sup>个元素a<sub>ij</sub>（i，j=1，2，...，n）组成的记号
 
 >>a<sub>11</sub> a<sub>12</sub> ... a<sub>1n</sub>
->>
+
 >>a<sub>21</sub> a<sub>22</sub> ... a<sub>2n</sub>
->>
+
 >>... ... ... ...
->>
+
 >>a<sub>n1</sub> a<sub>n2</sub> ... a<sub>nn</sub>
 
 >称为n阶行列式，其中横排称为行，纵排称为列。
