@@ -26,11 +26,11 @@ categories: math
 概念
 ---
 **n级排列**
->
+
 >由n个不同数码1，2，...，n组成的有序数组i<sub>1</sub>i<sub>2</sub>...i<sub>n</sub>，称为一个n级排列。
 
 **逆序数**
->
+
 >在一个n级排列i<sub>1</sub>i<sub>2</sub>...i<sub>n</sub>中，如果有较大的数i<sub>t</sub>排在较小的数i<sub>s</sub>前面（i<sub>s</sub><i<sub>t</sub>），则称i<sub>t</sub>与i<sub>t</sub>构成一个逆序。
 >
 >一个n级排列中的逆序的总数，称为它的逆序数，记为N(i<sub>1</sub>i<sub>2</sub>...i<sub>n</sub>)
@@ -38,7 +38,7 @@ categories: math
 >如果排列i<sub>1</sub>i<sub>2</sub>...i<sub>n</sub>的逆序数N(i<sub>1</sub>i<sub>2</sub>...i<sub>n</sub>)是奇数则称为奇排列，是偶数或0则称为偶排列。
 
 **n阶行列式**
->
+
 >用n<sup>2</sup>个元素a<sub>ij</sub>（i，j=1，2，...，n）组成的记号
 >>
 >>a<sub>11</sub> a<sub>12</sub> ... a<sub>1n</sub>
