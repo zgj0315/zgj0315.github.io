@@ -64,4 +64,4 @@ curl -XDELETE 'http://127.0.0.1:9200/customer?pretty'
 ```
 
 # Java API Demo
-参照工程[ElasticSearchTest](https://github.com/zgj0315/esTest)
+参照工程[ElasticSearchTest](https://github.com/zgj0315/esTest/tree/es5.2.1)
