@@ -63,5 +63,10 @@ curl -XGET 'http://127.0.0.1:9200/customer/external/1?pretty'
 curl -XDELETE 'http://127.0.0.1:9200/customer?pretty'
 ```
 
+## Template
+```shell
+curl -XGET 'http://127.0.0.1:9200/_template?pretty'
+```
+
 # Java API Demo
 参照工程[ElasticSearchTest](https://github.com/zgj0315/esTest/tree/es5.2.1)
