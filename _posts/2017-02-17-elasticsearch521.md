@@ -70,3 +70,11 @@ curl -XGET 'http://127.0.0.1:9200/_template?pretty'
 
 # Java API Demo
 参照工程[ElasticSearchTest](https://github.com/zgj0315/esTest/tree/es5.2.1)
+
+# x-pack
+引入x-pack可以提高es的数据安全，已将java api连接es的代码完成。
+## 安装命令
+```shell
+bin/elasticsearch-plugin install x-pack
+bin/kibana-plugin install x-pack
+```
