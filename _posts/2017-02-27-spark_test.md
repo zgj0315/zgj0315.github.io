@@ -16,8 +16,9 @@ categories: diary
 已实现Demo
 ---
 1. word count
+2. read from es
+3. write to es
 
 未实现Demo
 ---
-1. 访问es
-2. 写入es
+1. x-pack的读写
