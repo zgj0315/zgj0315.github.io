@@ -18,4 +18,4 @@ ToDoList
 - [x] word count
 - [x] read from es
 - [x] write to es
-- [ ] x-pack的读写
+- [x] x-pack的读写
