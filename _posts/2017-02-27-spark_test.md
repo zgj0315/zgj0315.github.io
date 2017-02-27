@@ -13,12 +13,9 @@ categories: diary
 ---
 [SparkTest](https://github.com/zgj0315/sparkTest)
 
-已实现Demo
+ToDoList
 ---
-1. word count
-2. read from es
-3. write to es
-
-未实现Demo
----
-1. x-pack的读写
+- [x] word count
+- [x] read from es
+- [x] write to es
+- [ ] x-pack的读写
