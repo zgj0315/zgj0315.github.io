@@ -65,4 +65,4 @@ bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --f
 # 4 TodoList
 - [x] 本地运行kafka
 - [x] java api demo
-- [ ] spark streaming demo
+- [x] spark streaming demo
