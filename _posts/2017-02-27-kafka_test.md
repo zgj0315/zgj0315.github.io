@@ -55,7 +55,11 @@ bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
 ```
 
-# 3 TodoList
+# 3 Demo链接
+## 3.1 Java
+[JavaTest](https://github.com/zgj0315/javaTest)
+
+# 4 TodoList
 - [x] 本地运行kafka
 - [ ] java api demo
 - [ ] scala api demo
