@@ -19,3 +19,4 @@ ToDoList
 - [x] read from es
 - [x] write to es
 - [x] x-pack的读写
+- [x] streaming read from kafka
