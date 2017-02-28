@@ -45,6 +45,9 @@ bin/kafka-topics.sh --list --zookeeper localhost:2181
 
 # create a topic
 bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test
+
+# delete a topic
+bin/kafka-topics.sh --delete --zookeeper localhost:2181 --topic test
 ```
 ### 2.3.2 Message
 ```shell
@@ -61,7 +64,5 @@ bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --f
 
 # 4 TodoList
 - [x] 本地运行kafka
-- [ ] java api demo
-- [ ] scala api demo
-- [ ] spark demo
+- [x] java api demo
 - [ ] spark streaming demo
