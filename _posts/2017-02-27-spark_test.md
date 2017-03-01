@@ -20,3 +20,7 @@ ToDoList
 - [x] write to es
 - [x] x-pack的读写
 - [x] streaming read from kafka
+- [x] join
+- [x] foreach
+- [x] mapWithState
+- [x] updateStateByKey
