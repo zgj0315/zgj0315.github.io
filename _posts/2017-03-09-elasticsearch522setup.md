@@ -177,6 +177,10 @@ gateway.recover_after_nodes: 4
 #
 # 删除索引时必须明确提供索引名，设置为true，不允许DELETE /twitt*，相对比较安全，以防误操作
 action.destructive_requires_name: true
+# node
+# 
+node.master: true
+node.data: false
 ```
 
 ## 6.2.2 jvm.options
