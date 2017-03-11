@@ -382,11 +382,13 @@ logger.index_indexing_slowlog.additivity = false
 
 ## 7.1 安装命令
 ```shell
-/home/qzt_es5/elasticsearch-5.2.2/bin/elasticsearch-plugin install file:///home/qzt_es/software/x-pack-5.2.2.zip
-/home/qzt_es5/elasticsearch-5.2.2/bin/kibana-plugin install file:///home/qzt_es/software/x-pack-5.2.2.zip
+/home/qzt_es5/elasticsearch-5.2.2/bin/elasticsearch-plugin install file:///home/qzt_es5/software/x-pack-5.2.2.zip
+/home/qzt_es5/kibana-5.2.2-linux-x86_64/bin/kibana-plugin install file:///home/qzt_es5/software/x-pack-5.2.2.zip
 ```
 
 # 8 启动ES
+
+## 8.1 启动脚本
 启动es需要指定一些参数，脑子记的方式不好，直接写成个脚本比较合理
 
 配置文件/home/qzt_es5/restartES.sh
@@ -399,10 +401,56 @@ sleep 7
 echo "ES restart success!"
 ```
 
+## 8.2 启动前的设置
+修改/etc/security/limits.conf
+
+在文件最后增加如下内容
+
+```shell
+@qzt_es5	soft	nofile	65536
+@qzt_es5	hard	nofile	65536
+@qzt_es5	soft	nproc	2048
+@qzt_es5	hard	nproc	2048
+@qzt_es5	soft	memlock	unlimited
+@qzt_es5	hard	memlock	unlimited
+```
+
+修改/etc/sysctl.conf
+
+在文件最后增加如下内容
+
+```shell
+vm.max_map_count = 262144
+```
+修改完成以上配置后，重启系统，检查配置是否正确的命令如下
+
+```shell
+su - qzt_es5
+ulimit -a
+
+# 查看vm.max_map_count
+sysctl vm.max_map_count
+
+```
+
 # 9 检查集群状态
 
 ```shell
 # 检查memory_lock
 curl -XGET 'http://192.168.10.12:9200/_nodes?filter_path=**.mlockall'
+# 检查文件描述符
+GET _nodes/stats/process?filter_path=**.max_file_descriptors
+```
 
+# 10 启动kibana
+
+```shell
+#!/bin/bash
+for i in `ps aux|grep kibana |grep 5.2.2 | awk '{print$2}'`
+do
+  echo "kill -9 "$i
+  kill -9 $i
+done
+/home/qzt_es/kibana-5.2.2-linux-x64/bin/kibana > /dev/null 2>&1 &
+echo "Kibana restart done!"
 ```
