@@ -184,6 +184,7 @@ node.data: false
 ```
 
 ## 6.2.2 jvm.options
+配置文件只能读取默认目录的，手工指定的方式还没搞明白如何设置
 
 ```shell
 ## JVM configuration
@@ -297,6 +298,7 @@ node.data: false
 ```
 
 ## 6.2.3 log4j2.properties
+配置文件只能读取默认目录的，手工指定的方式还没搞明白如何设置
 
 ```shell
 status = error
@@ -453,4 +455,48 @@ do
 done
 /home/qzt_es/kibana-5.2.2-linux-x64/bin/kibana > /dev/null 2>&1 &
 echo "Kibana restart done!"
+```
+
+# 11 重启node节点
+
+```shell
+# 查看集群状态
+curl -XGET -u elastic:changeme 'http://192.168.10.12:9200/_cluster/health?pretty=true'
+
+# flush
+curl -XPOST -u elastic:changeme '192.168.10.12:9200/_flush/synced?pretty'
+
+# 修改配置
+curl -XPUT -u elastic:changeme '192.168.10.12:9200/_cluster/settings?pretty' -d'
+{
+  "transient": {
+    "cluster.routing.allocation.enable": "none"
+  }
+}'
+# 重启node
+
+# 重启后，node加入集群正常工作后执行以下配置
+curl -XPUT -u elastic:changeme '192.168.10.12:9200/_cluster/settings?pretty' -d'
+{
+  "transient": {
+    "cluster.routing.allocation.enable": "all"
+  }
+}'
+
+curl -XGET -u elastic:changeme 'http://192.168.10.12:9200/_cat/shards?v'
+
+curl -XGET -u elastic:changeme 'http://192.168.10.12:9200/_cat/indices?v'
+
+curl -XGET -u elastic:changeme 'http://192.168.10.12:9200/_nodes/stats?pretty'
+
+curl -XGET -u elastic:changeme 'http://192.168.10.12:9200/_cat/thread_pool?v'
+
+curl -XGET -u elastic:changeme 'http://192.168.10.12:9200/_cluster/stats?pretty'
+
+curl -XGET -u elastic:changeme '192.168.10.12:9200/_cat/health?pretty'
+
+curl -XGET -u elastic:changeme '192.168.10.12:9200/_cluster/health?pretty'
+
+curl -XGET -u elastic:changeme '192.168.10.12:9200/_cat/recovery?pretty'
+
 ```
