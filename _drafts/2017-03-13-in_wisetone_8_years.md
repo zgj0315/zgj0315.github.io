@@ -22,5 +22,17 @@ categories: summary
 
 好了，我准备罗列各种技术了。
 
-Linux, MacOS, HTML, Java, JavaScript, Scala, Struts2, Spring, Hibernate, JQuery, Backbone, Springboot, WebService, Hadoop, Flume, Kafka, HDFS, MapReduce, HBase, Spark, Spark Streaming, Elastic Search, Logstash, Kibana, Storm...
+## 3.1 操作系统
+Linux, MacOS, Windows(基本不用了), Arch Linux, Ubuntu, CentOS, SuSe Linux
 
+## 3.2 编辑器
+eclipse(基本不用了), Vi, Emacs, org-mode, MacDown, markdown, IDEA
+
+## 3.3 前端技术
+HTML, HTML5, css, JavaScript, JQuery, Backbone, Struts2
+
+## 3.4 后端技术
+Java, Scala, Spring, Springboot, Hibernate, WebService, XML, JSON, Redis, Mysql, Postgresql, Sql Server
+
+## 3.5 大数据相关
+Hadoop, Flume, Kafka, HDFS, MapReduce, HBase, Spark, Spark Streaming, Elastic Search, Logstash, Kibana, Storm
