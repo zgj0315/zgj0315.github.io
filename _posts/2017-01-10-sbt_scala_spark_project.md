@@ -71,6 +71,7 @@ sbt下载包慢的问题
 在~/.sbt/新建一个文件repositories，内容如下：
 
 ```shell
+[repositories]
 local
   nexus-aliyun: http://maven.aliyun.com/nexus/content/groups/public/
 ```
