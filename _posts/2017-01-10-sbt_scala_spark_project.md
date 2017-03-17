@@ -65,3 +65,12 @@ object WordCount {
 ---
 在github上建立了一个demo工程，可以参照。地址如下：
 [mlLibTest](https://github.com/zgj0315/mlLibTest)
+
+sbt下载包慢的问题
+---
+在~/.sbt/新建一个文件repositories，内容如下：
+
+```shell
+local
+  nexus-aliyun: http://maven.aliyun.com/nexus/content/groups/public/
+```
