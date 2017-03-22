@@ -75,3 +75,14 @@ sbt下载包慢的问题
 local
   nexus-aliyun: http://maven.aliyun.com/nexus/content/groups/public/
 ```
+
+sbt指定jdk版本
+---
+你的电脑可能存在多个版本的jdk，但是系统一般采用最新版的，比如我电脑当前是jdk1.8，但是项目中我又想用jdk1.7编译打包啥的，那咋办？
+
+解决办法：
+
+```shenll
+# 启动sbt的命令后加参数
+sbt -java-home /Library/Java/JavaVirtualMachines/jdk1.7.0_80.jdk/Contents/Home
+```
