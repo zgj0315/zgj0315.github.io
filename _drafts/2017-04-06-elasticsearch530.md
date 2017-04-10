@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "ElasticSearch-5.2.1研究"
-date:   2017-02-17 09:08:07 +0800
+title:  "ElasticSearch-5.3.0部署"
+date:   2017-04-06 09:08:07 +0800
 categories: es
 ---
 
