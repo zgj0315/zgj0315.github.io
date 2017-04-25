@@ -84,3 +84,221 @@ curl -XGET 'http://127.0.0.1:9200/_template?pretty'
 bin/elasticsearch-plugin install x-pack
 bin/kibana-plugin install x-pack
 ```
+
+# Mapping
+## Set mapping
+```
+curl -XDELETE '127.0.0.1:9200/my_index'
+
+curl -XPUT '127.0.0.1:9200/my_index' -d '
+{
+  "mappings": {
+    "user": { 
+      "_all":       { "enabled": false  }, 
+      "properties": { 
+        "title":    { "type": "text"  }, 
+        "name":     { "type": "text"  }, 
+        "age":      { "type": "integer" }  
+      }
+    },
+    "blogpost": { 
+      "_all":       { "enabled": false  }, 
+      "properties": { 
+        "title":    { "type": "text"  }, 
+        "body":     { "type": "text"  }, 
+        "user_id":  {
+          "type":   "keyword" 
+        },
+        "created":  {
+          "type":   "date", 
+          "format": "strict_date_optional_time||epoch_millis"
+        }
+      }
+    }
+  }
+}
+'
+
+curl -XGET '127.0.0.1:9200/my_index/_mapping?pretty'
+
+```
+## Field datatypes
+### Array datatype
+```
+curl -XPUT '127.0.0.1:9200/my_index/my_type/1' -d '
+{
+  "message": "some arrays in this document...",
+  "tags":  [ "elasticsearch", "wow" ], 
+  "lists": [ 
+    {
+      "name": "prog_list",
+      "description": "programming list"
+    },
+    {
+      "name": "cool_list",
+      "description": "cool stuff list"
+    }
+  ]
+}
+'
+
+curl -XGET '127.0.0.1:9200/my_index/_mapping?pretty'
+curl -XGET '127.0.0.1:9200/my_index/my_type/1?pretty'
+
+curl -XPUT '127.0.0.1:9200/my_index/my_type/2' -d '
+{
+  "message": "no arrays in this document...",
+  "tags":  "elasticsearch",
+  "lists": {
+    "name": "prog_list",
+    "description": "programming list"
+  }
+}
+'
+curl -XPUT '127.0.0.1:9200/my_index/my_type/2' -d '{"message": "no arrays in this document...","tags":"elasticsearch","lists": {"name":"prog_list","description": "programming list"}}
+'
+
+curl -XGET '127.0.0.1:9200/my_index/_search' -d '
+{
+  "query": {
+    "match": {
+      "tags": "elasticsearch" 
+    }
+  }
+}
+'
+```
+
+### Ip Datatype
+```
+curl -XGET '127.0.0.1:9200/my_index1/_search?pretty'
+
+```
+
+### Nested datatype
+```
+curl -XDELETE '127.0.0.1:9200/my_index'
+
+curl -XPUT '127.0.0.1:9200/my_index/my_type/1' -d '
+{
+  "group" : "fans",
+  "user" : [ 
+    {
+      "first" : "John",
+      "last" :  "Smith"
+    },
+    {
+      "first" : "Alice",
+      "last" :  "White"
+    }
+  ]
+}
+'
+
+curl -XGET '127.0.0.1:9200/my_index/my_type/1?pretty'
+curl -XGET '127.0.0.1:9200/my_index/_search' -d '
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match": { "user.first": "Alice" }},
+        { "match": { "user.last":  "Smith" }}
+      ]
+    }
+  }
+}
+'
+
+curl -XDELETE '127.0.0.1:9200/my_index'
+curl -XPUT '127.0.0.1:9200/my_index' -d '
+{
+  "mappings": {
+    "my_type": {
+      "properties": {
+        "user": {
+          "type": "nested" 
+        }
+      }
+    }
+  }
+}
+'
+
+curl -XPUT '127.0.0.1:9200/my_index/my_type/1' -d '
+{
+  "group" : "fans",
+  "user" : [
+    {
+      "first" : "John",
+      "last" :  "Smith"
+    },
+    {
+      "first" : "Alice",
+      "last" :  "White"
+    }
+  ]
+}
+'
+curl -XGET '127.0.0.1:9200/my_index/my_type/1?pretty'
+curl -XGET '127.0.0.1:9200/my_index/_search' -d '
+{
+  "query": {
+    "nested": {
+      "path": "user",
+      "query": {
+        "bool": {
+          "must": [
+            { "match": { "user.first": "Alice" }},
+            { "match": { "user.last":  "Smith" }} 
+          ]
+        }
+      }
+    }
+  }
+}
+'
+
+curl -XGET '127.0.0.1:9200/my_index/_search' -d '
+{
+  "query": {
+    "nested": {
+      "path": "user",
+      "query": {
+        "bool": {
+          "must": [
+            { "match": { "user.first": "Alice" }},
+            { "match": { "user.last":  "White" }} 
+          ]
+        }
+      },
+      "inner_hits": { 
+        "highlight": {
+          "fields": {
+            "user.first": {}
+          }
+        }
+      }
+    }
+  }
+}
+'
+
+curl -XGET '127.0.0.1:9200/my_index/_search' -d '
+{
+  "query": {
+    "nested": {
+      "path": "user",
+      "query": {
+        "bool": {
+          "must": [
+            { "match": { "user.first": "Alice" }},
+            { "match": { "user.last":  "White" }} 
+          ]
+        }
+      }
+    }
+  }
+}
+'
+
+```
