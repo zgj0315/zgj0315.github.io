@@ -302,3 +302,272 @@ curl -XGET '127.0.0.1:9200/my_index/_search' -d '
 '
 
 ```
+
+# 权威指南中的demo
+```
+# 索引文档
+curl -XPUT '127.0.0.1:9200/megacorp/employee/1' -d '
+{
+    "first_name" : "John",
+    "last_name" :  "Smith",
+    "age" :        25,
+    "about" :      "I love to go rock climbing",
+    "interests": [ "sports", "music" ]
+}
+'
+
+curl -XPUT '127.0.0.1:9200/megacorp/employee/2' -d '
+{
+    "first_name" :  "Jane",
+    "last_name" :   "Smith",
+    "age" :         32,
+    "about" :       "I like to collect rock albums",
+    "interests":  [ "music" ]
+}
+'
+
+curl -XPUT '127.0.0.1:9200/megacorp/employee/3' -d '
+{
+    "first_name" :  "Douglas",
+    "last_name" :   "Fir",
+    "age" :         35,
+    "about":        "I like to build cabinets",
+    "interests":  [ "forestry" ]
+}
+'
+# 检索文档
+curl -XGET '127.0.0.1:9200/megacorp/employee/1?pretty'
+
+# 轻量搜索
+curl -XGET '127.0.0.1:9200/megacorp/employee/_search?pretty'
+
+curl -XGET '127.0.0.1:9200/megacorp/employee/_search?q=last_name:Smith&pretty=true'
+
+# 使用查询表达式搜索
+curl -XGET '127.0.0.1:9200/megacorp/employee/_search?pretty' -d '
+{
+    "query" : {
+        "match" : {
+            "last_name" : "Smith"
+        }
+    }
+}
+'
+
+# 更复杂的搜索
+curl -XGET '127.0.0.1:9200/megacorp/employee/_search?pretty' -d '
+{
+    "query" : {
+        "bool": {
+            "must": {
+                "match" : {
+                    "last_name" : "smith" 
+                }
+            },
+            "filter": {
+                "range" : {
+                    "age" : { "gt" : 30 } 
+                }
+            }
+        }
+    }
+}
+'
+# 全文检索
+curl -XGET '127.0.0.1:9200/megacorp/employee/_search?pretty' -d '
+{
+    "query" : {
+        "match" : {
+            "about" : "rock climbing"
+        }
+    }
+}
+'
+
+# 短语搜索
+curl -XGET '127.0.0.1:9200/megacorp/employee/_search?pretty' -d '
+{
+    "query" : {
+        "match_phrase" : {
+            "about" : "rock climbing"
+        }
+    }
+}
+'
+
+# 高亮搜索
+curl -XGET '127.0.0.1:9200/megacorp/employee/_search?pretty' -d '
+{
+    "query" : {
+        "match_phrase" : {
+            "about" : "rock climbing"
+        }
+    },
+    "highlight": {
+        "fields" : {
+            "about" : {}
+        }
+    }
+}
+'
+
+# 分析
+curl -XGET '127.0.0.1:9200/megacorp/employee/_search?pretty' -d '
+{
+  "aggs": {
+    "all_interests": {
+      "terms": { "field": "interests.keyword" }
+    }
+  }
+}
+'
+
+curl -XGET '127.0.0.1:9200/megacorp/employee/_search?pretty' -d '
+{
+  "aggs": {
+    "all_interests": {
+      "terms": { "field": "last_name.keyword" }
+    }
+  }
+}
+'
+
+curl -XGET '127.0.0.1:9200/megacorp/employee/_search?pretty' -d '
+{
+  "query": {
+    "match": {
+      "last_name": "smith"
+    }
+  },
+  "aggs": {
+    "all_interests": {
+      "terms": {
+        "field": "interests.keyword"
+      }
+    }
+  }
+}
+'
+
+curl -XGET '127.0.0.1:9200/megacorp/employee/_search?pretty' -d '
+{
+    "aggs" : {
+        "all_interests" : {
+            "terms" : { "field" : "interests.keyword" },
+            "aggs" : {
+                "avg_age" : {
+                    "avg" : { "field" : "age" }
+                }
+            }
+        }
+    }
+}
+'
+
+# 构建父-子文档索引
+
+curl -XDELETE '127.0.0.1:9200/company'
+
+curl -XPUT '127.0.0.1:9200/company' -d '
+{
+  "mappings": {
+    "branch": {},
+    "employee": {
+      "_parent": {
+        "type": "branch" 
+      }
+    }
+  }
+}
+'
+
+curl -XPOST '127.0.0.1:9200/company/branch/_bulk?pretty' -d '
+{ "index": { "_id": "london" }}
+{ "name": "London Westminster", "city": "London", "country": "UK" }
+{ "index": { "_id": "liverpool" }}
+{ "name": "Liverpool Central", "city": "Liverpool", "country": "UK" }
+{ "index": { "_id": "paris" }}
+{ "name": "Champs Élysées", "city": "Paris", "country": "France" }
+'
+
+curl -XPOST '127.0.0.1:9200/company/employee/1?parent=london&pretty' -d '
+{
+  "name":  "Alice Smith",
+  "dob":   "1970-10-24",
+  "hobby": "hiking"
+}
+'
+
+curl -XPOST '127.0.0.1:9200/company/employee/_bulk?pretty' -d '
+{ "index": { "_id": 2, "parent": "london" }}
+{ "name": "Mark Thomas", "dob": "1982-05-16", "hobby": "diving" }
+{ "index": { "_id": 3, "parent": "liverpool" }}
+{ "name": "Barry Smith", "dob": "1979-04-01", "hobby": "hiking" }
+{ "index": { "_id": 4, "parent": "paris" }}
+{ "name": "Adrien Grand", "dob": "1987-05-11", "hobby": "horses" }
+'
+
+# 通过子文档查询父文档
+curl -XPOST '127.0.0.1:9200/company/branch/_search?pretty' -d '
+{
+  "query": {
+    "has_child": {
+      "type": "employee",
+      "query": {
+        "range": {
+          "dob": {
+            "gte": "1980-01-01"
+          }
+        }
+      }
+    }
+  }
+}
+'
+
+curl -XPOST '127.0.0.1:9200/company/branch/_search?pretty' -d '
+{
+  "query": {
+    "has_child": {
+      "type":       "employee",
+      "score_mode": "max",
+      "query": {
+        "match": {
+          "name": "Alice Smith"
+        }
+      }
+    }
+  }
+}
+'
+
+curl -XPOST '127.0.0.1:9200/company/branch/_search?pretty' -d '
+{
+  "query": {
+    "has_child": {
+      "type":         "employee",
+      "min_children": 2, 
+      "query": {
+        "match_all": {}
+      }
+    }
+  }
+}
+'
+
+# 通过父文档查询子文档
+curl -XPOST '127.0.0.1:9200/company/employee/_search?pretty' -d '
+{
+  "query": {
+    "has_parent": {
+      "type": "branch", 
+      "query": {
+        "match": {
+          "country": "UK"
+        }
+      }
+    }
+  }
+}
+'
+```
