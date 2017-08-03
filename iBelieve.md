@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 我相信的事
+title: 我相信
 permalink: /iBelieve/
 ---
 
