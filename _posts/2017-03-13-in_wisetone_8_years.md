@@ -18,7 +18,7 @@ categories: summary
 感谢Wisetone的陪伴。
 
 # 3. 技术
-实话实说，宽广提供了很好的平台，让我有机会学到了很多很重要的技术，这一点上十分感谢。
+宽广提供了很好的平台，让我有机会学到了很多很重要的技术，这一点上十分感谢。
 
 好了，我准备罗列各种技术了。
 
@@ -36,5 +36,3 @@ Java, Scala, Spring, Springboot, Hibernate, WebService, XML, JSON, Redis, Mysql,
 
 ## 3.5 大数据相关
 Hadoop, Flume, Kafka, HDFS, MapReduce, HBase, Spark, Spark Streaming, Elastic Search, Logstash, Kibana, Storm
-
-# 人
