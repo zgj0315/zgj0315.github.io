@@ -33,6 +33,8 @@ permalink: /aboutMe/
 > 201710 《What Every Body is Saying》
 >
 > 201711 《少有人走的路》
+>
+> 201802 《打造高效团队》
 
 
 # 5. 正在尝试的事
