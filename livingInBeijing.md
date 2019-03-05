@@ -1,7 +1,7 @@
 ---
 layout: page
 title: 生活在北京
-permalink: /aboutMe/
+permalink: /livingInBeijing/
 ---
 北京是个神奇的地方，感觉各种资源都紧张
 ===
