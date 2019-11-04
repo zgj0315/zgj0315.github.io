@@ -6,4 +6,4 @@ permalink: /contact/
 
 邮箱：zgj0315@gmail.com
 
-QQ: 22655080
+QQ/WeChat: 22655080
