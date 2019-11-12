@@ -47,3 +47,6 @@ permalink: /aboutMe/
 # 5. 口号
 
 作为人，何为正确
+
+# 6. 简历
+[简历](resume_zhaogj.pdf)
