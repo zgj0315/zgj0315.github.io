@@ -41,13 +41,18 @@ bin/kafka-server-start.sh config/server.properties
 ### 2.3.1 Topic
 ```shell
 # list all topic
-bin/kafka-topics.sh --list --zookeeper localhost:2181
+bin/kafka-topics.sh --list --zookeeper es3:2181
 
 # create a topic
-bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test
+bin/kafka-topics.sh --create --zookeeper es3:2181 --replication-factor 1 --partitions 1 --topic test
 
 # delete a topic
-bin/kafka-topics.sh --delete --zookeeper localhost:2181 --topic test
+bin/kafka-topics.sh --delete --zookeeper es3:2181 --topic test
+
+# ttl
+kafka-configs --zookeeper es3:2181 --entity-type topics --entity-name bangcle_message_decrypt --alter --add-config retention.ms=432000000
+
+kafka-topics --zookeeper es3:2181 --describe --topic bangcle_message_decrypt
 ```
 ### 2.3.2 Message
 ```shell
